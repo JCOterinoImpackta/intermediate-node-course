@@ -5,6 +5,8 @@ const port=8000;
 const app= express();
 
 const User=require('./models/User');
+const Flanes=require('./models/Flanes');
+const Cursos=require('./models/Cursos');
 mongoose.connect('mongodb://localhost/userData')
 
 
@@ -34,7 +36,7 @@ function sendResponse(res,err,data){
   }
 }
 
-
+//USUARIOS
 app.post('/users',(req,res)=>{
   User.create(
     {...req.body.newData},
@@ -57,6 +59,64 @@ app.route('/users/:id')
 })
 .delete((req,res)=>{
   User.findByIdAndDelete(
+    req.params.id,
+    (err,data)=>{sendResponse(res,err,data)})
+})
+
+
+//FLANES
+app.post('/flanes',(req,res)=>{
+  Flanes.create(
+    {...req.body.newData},
+    (err,data)=>{sendResponse(res,err,data)}
+  )
+})
+
+app.route('/flanes/:id')
+.get((req,res)=>{
+  Flanes.findById(
+    req.params.id,
+    (err,data)=>{sendResponse(res,err,data)})
+})
+.put((req,res)=>{
+  Flanes.findByIdAndUpdate(
+    req.params.id,
+    {...req.body.newData},
+    {new:true},
+    (err,data)=>{sendResponse(res,err,data)})
+})
+.delete((req,res)=>{
+  Flanes.findByIdAndDelete(
+    req.params.id,
+    (err,data)=>{sendResponse(res,err,data)})
+})
+
+
+
+
+//CURSOS
+app.post('/cursos',(req,res)=>{
+  Cursos.create(
+    {...req.body.newData},
+    (err,data)=>{sendResponse(res,err,data)}
+  )
+})
+
+app.route('/cursos/:id')
+.get((req,res)=>{
+  Cursos.findById(
+    req.params.id,
+    (err,data)=>{sendResponse(res,err,data)})
+})
+.put((req,res)=>{
+  Cursos.findByIdAndUpdate(
+    req.params.id,
+    {...req.body.newData},
+    {new:true},
+    (err,data)=>{sendResponse(res,err,data)})
+})
+.delete((req,res)=>{
+  Cursos.findByIdAndDelete(
     req.params.id,
     (err,data)=>{sendResponse(res,err,data)})
 })
